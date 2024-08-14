@@ -1,9 +1,12 @@
 import { useQuery } from "react-query"
 import { Weatherfetch } from "../../Services/Weatherfetch"
 import { API_KEY } from "../../helpers/Constants"
+import UseStore from "../../context/Inputvalue.js"
 
 function Weathercard(){
-    const {data , isLoading , isError , error} = useQuery(['weather'] , () => Weatherfetch(API_KEY , 'kolkata'))
+    const { place, updatePlace } = UseStore()
+    const time = new Date()
+    const {data , isLoading , isError , error} = useQuery(['weather' , place] , () => Weatherfetch(API_KEY , place))
     function temp(t){
         const tempCelsius = Math.round(t - 273.15);
         return tempCelsius
@@ -12,6 +15,13 @@ function Weathercard(){
         const windSpeedKmH = Math.round(s * 3.6);
         return windSpeedKmH
     }
+    if(isLoading){
+        return(
+            <>
+                <div>Loading</div>
+            </>
+        )
+    }
     return (
         <>
             {data && 
@@ -19,7 +29,7 @@ function Weathercard(){
                     <div className="flex items-center justify-between">
                         <div className="text-white">
                             <h2 className="text-2xl font-bold">{data.name}</h2>
-                            <p className="text-sm">Monday, 10:00 AM</p>
+                            <p className="text-sm">{time.toLocaleDateString}</p>
                         </div>
                         <div className="text-white text-right">
                             <p className="text-4xl font-bold">{temp(data.main.temp)}</p>
