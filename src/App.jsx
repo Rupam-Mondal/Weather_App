@@ -1,4 +1,6 @@
 import './App.css'
+import Input from './Components/Input/Input'
+import Weathercard from './Components/Weathercard/Weathercard'
 import { API_KEY } from './helpers/Constants'
 import { Weatherfetch } from './Services/Weatherfetch'
 
@@ -6,13 +8,10 @@ function App() {
 
   return (
     <>
-      <div className='bg-red-400'>
-        hello bro
+      <div className='w-screen h-screen background flex flex-col items-center gap-10'>
+        <Input />
+        <Weathercard/>
       </div>
-      <button onClick={() => {
-        const ans = Weatherfetch(API_KEY , 'kolkata')
-        console.log(ans)
-      }}>click me</button>
     </>
   )
 }
